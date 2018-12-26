@@ -4,7 +4,7 @@ import { Squadron } from '../model/squadron';
 import { PWCGServerConfig } from '../utils/config'
 
 export interface ISquadrons {
-    [details: string]: Squadron[];
+    [campaignName: string]: Squadron[];
 }
 
 export class CampaignSquadronListService {
