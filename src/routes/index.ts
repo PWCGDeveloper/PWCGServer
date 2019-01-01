@@ -6,6 +6,7 @@ import { NewUserService } from '../services/newUserRequest';
 import { LoginService } from '../services/loginRequest';
 import { NewPilotService } from '../services/newPilotRequest';
 import { PilotsForPlayerService } from '../services/pilotsForPlayerService';
+import { RankService } from '../services/ranksForService';
 import { PWCGResponse } from '../model/response';
 
 const router = new Router();
@@ -39,18 +40,18 @@ router.get('/pwcgServer/squadronList', ctx =>
     }
 });
 
-router.get('/pwcgServer/ranksForSquadron', ctx => 
+router.get('/pwcgServer/ranksForService', ctx => 
 {
-    let campaignName = ctx.query.campaignName;
+    let serviceId = ctx.query.serviceId;
     try {
-        const campaignSquadronListService = new CampaignSquadronListService();
-        const squadronList = campaignSquadronListService.getCampaignSquadronList(campaignName);
+        const rankService = new RankService();
+        const rankList = rankService.getRanksForService(serviceId);
         ctx.status = 202;
-        ctx.body = squadronList;    
+        ctx.body = rankList;    
     }
     catch (e) {
-        console.log(`Error getting campaign squadron list for campaign ${campaignName}`, e);
-        buildResponse(ctx, 500, `Error getting campaign squadron list for campaign ${campaignName}`);
+        console.log(`Error getting ranks for service ${serviceId}`, e);
+        buildResponse(ctx, 500, `Error getting ranks for service ${serviceId}`);
     }
 });
 
