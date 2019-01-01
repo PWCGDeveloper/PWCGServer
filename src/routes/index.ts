@@ -39,6 +39,22 @@ router.get('/pwcgServer/squadronList', ctx =>
     }
 });
 
+router.get('/pwcgServer/ranksForSquadron', ctx => 
+{
+    let campaignName = ctx.query.campaignName;
+    try {
+        const campaignSquadronListService = new CampaignSquadronListService();
+        const squadronList = campaignSquadronListService.getCampaignSquadronList(campaignName);
+        ctx.status = 202;
+        ctx.body = squadronList;    
+    }
+    catch (e) {
+        console.log(`Error getting campaign squadron list for campaign ${campaignName}`, e);
+        buildResponse(ctx, 500, `Error getting campaign squadron list for campaign ${campaignName}`);
+    }
+});
+
+
 router.get('/pwcgServer/pilotsForPlayer', ctx => 
 {
     let playerHandle = ctx.query.playerHandle;
@@ -92,6 +108,7 @@ router.post('/pwcgServer/newPilotRequest', ctx =>
 {
     let response = new PWCGResponse();
     try {
+        console.log(JSON.stringify(ctx.request.body));
         const newPilotRequest = ctx.request.body;
         const newPilotService = new NewPilotService();
         newPilotService.postNewPilotRequest(newPilotRequest);
