@@ -43,11 +43,14 @@ router.get('/pwcgServer/squadronList', ctx =>
 router.get('/pwcgServer/ranksForService', ctx => 
 {
     let serviceId = ctx.query.serviceId;
+    console.log(`get ranks for ${serviceId}`);
+
     try {
         const rankService = new RankService();
         const rankList = rankService.getRanksForService(serviceId);
+        console.log(JSON.stringify(rankList));
         ctx.status = 202;
-        ctx.body = rankList;    
+        ctx.body = rankList;
     }
     catch (e) {
         console.log(`Error getting ranks for service ${serviceId}`, e);

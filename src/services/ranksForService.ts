@@ -30,7 +30,6 @@ export class RankService {
         if (fileContent) {
             let rankFileContent = JSON.parse(fileContent);
             ranks = rankFileContent.ranks;
-            console.log(JSON.stringify(ranks));
         } else {
             console.log(`no rank data in ${rankDir}/Ranks.json`);
         }
