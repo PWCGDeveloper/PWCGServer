@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { StringUtils } from '../utils/stringutils'
+import { DuplicateFileException } from './duplicateFileException'
 
 export class FileUtils {
 
@@ -41,13 +42,15 @@ export class FileUtils {
         return null;
     }
 
-    static writeFile(filepath: string, json: any) {
+    static writeFile(directory: string, filename: string, json: any) {
+        const filepath = `${directory}/${filename}`;
         if (!this.fileExists(filepath)) {
 
             let content = fs.writeFileSync(filepath, JSON.stringify(json));
         }
-
-        return null;
+        else {
+            throw new DuplicateFileException(`${filename} already exists.  Choose another name`);
+        }
     }
 
     static fileExists(filepath: string): boolean {

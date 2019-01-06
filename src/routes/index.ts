@@ -8,6 +8,9 @@ import { NewPilotService } from '../services/newPilotRequest';
 import { PilotsForPlayerService } from '../services/pilotsForPlayerService';
 import { RankService } from '../services/ranksForService';
 import { PWCGResponse } from '../model/response';
+import { DuplicateFileException } from '../utils/duplicateFileException'
+import { PilotData } from '../model/pilotdata';
+import { UserData } from '../model/userdata';
 
 const router = new Router();
 
@@ -76,16 +79,21 @@ router.get('/pwcgServer/pilotsForPlayer', ctx =>
 
 router.post('/pwcgServer/newUserRequest', ctx => 
 {
-    let response = new PWCGResponse();
+    let newUserRequest = new UserData();
     try {
-        const newUserRequest = ctx.request.body;
+        newUserRequest = ctx.request.body;
         const newUserService = new NewUserService();
         newUserService.postNewUserRequest(newUserRequest);
-        buildResponse(ctx, 202, `New user request submitted for pilot  ${newUserRequest.username}`);
+        buildResponse(ctx, 202, `New user request submitted for user  ${newUserRequest.username}`);
     }
     catch (e) {
         console.log("Error posting new user request", e);
-        buildResponse(ctx, 500, `Error posting new user request`);
+        if (e instanceof DuplicateFileException) {
+            buildResponse(ctx, 409, `Duplicate user request for user ${newUserRequest.username}`);
+        }
+        else {
+            buildResponse(ctx, 500, `Error posting new user request`);
+        }
     }
 });
 
@@ -110,17 +118,22 @@ router.post('/pwcgServer/loginRequest', ctx =>
 
 router.post('/pwcgServer/newPilotRequest', ctx => 
 {
-    let response = new PWCGResponse();
+    let newPilotRequest = new PilotData();
     try {
         console.log(JSON.stringify(ctx.request.body));
-        const newPilotRequest = ctx.request.body;
+        newPilotRequest = ctx.request.body;
         const newPilotService = new NewPilotService();
         newPilotService.postNewPilotRequest(newPilotRequest);
         buildResponse(ctx, 202, `New pilot request submitted for pilot  ${newPilotRequest.pilotName}`);
     }
     catch (e) {
         console.log("Error posting new pilot request", e);
-        buildResponse(ctx, 500, `New pilot request failed`);
+        if (e instanceof DuplicateFileException) {
+            buildResponse(ctx, 409, `Duplicate pilot request for pilot ${newPilotRequest.pilotName}`);
+        }
+        else {
+            buildResponse(ctx, 500, `Error posting new user request`);
+        }
     }
 });
 

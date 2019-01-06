@@ -15,7 +15,9 @@ export class CampaignListService
             console.log(`for path ${campaignDir}`);
             if (fileContent) {
                 let campaign = JSON.parse(fileContent);
-                campaignList.push(campaign);
+                if (campaign.isCoop) {
+                    campaignList.push(campaign);
+                }
                 console.log(`${campaign}`);
             } else {
                 console.log(`no campaign in ${campaignDir}`);

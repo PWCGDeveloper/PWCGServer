@@ -7,6 +7,6 @@ export class NewPilotService
     public postNewPilotRequest(newPilotData: PilotData)
     {
         console.log(newPilotData);
-        FileUtils.writeFile(`${PWCGServerConfig.coopPilotDir}/${newPilotData.pilotName}.json`, newPilotData);
+        FileUtils.writeFile(PWCGServerConfig.coopPilotDir, `${newPilotData.pilotName}.json`, newPilotData);
     }
 }
