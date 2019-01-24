@@ -4,7 +4,7 @@
   "main": "build/app.js",
   "scripts": {
     "build": "tsc",
-    "test": "npx jest",
+    "test": "npx jest --verbose",
     "start": "npm run build && node ."
   },
   "keywords": [],

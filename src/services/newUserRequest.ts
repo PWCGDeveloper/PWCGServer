@@ -6,7 +6,6 @@ export class NewUserService
 {
     public postNewUserRequest(newUserData: UserData)
     {
-        console.log(newUserData);
         FileUtils.writeFile(PWCGServerConfig.coopUserDir, `${newUserData.username}.json`, newUserData);
     }
 }

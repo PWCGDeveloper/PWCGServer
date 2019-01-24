@@ -1,11 +1,11 @@
 import { Campaign } from '../model/campaign';
 import { FileUtils } from '../utils/fileutils'
-import { PilotData } from '../model/pilotdata';
+import { HumanPilot } from '../model/pilotdata';
 import { PWCGServerConfig } from '../utils/config'
 
 export class PilotsForPlayerService {
 
-    public getPilotsForPlayer(playerHandle: string): PilotData[] {
+    public getPilotsForPlayer(playerHandle: string): HumanPilot[] {
         console.log(`invoked getPilotsForPlayer ${playerHandle}`);
 
         let pilotsForPlayer = this.getPilotRecordsForPlayer(playerHandle);
@@ -16,9 +16,9 @@ export class PilotsForPlayerService {
         return pilotsForPlayer;
     }
 
-    private getPilotRecordsForPlayer(playerHandle: string): PilotData[] {
+    private getPilotRecordsForPlayer(playerHandle: string): HumanPilot[] {
 
-        let pilotsForPlayer: PilotData[] = [];
+        let pilotsForPlayer: HumanPilot[] = [];
         let coopPilotDir = `${PWCGServerConfig.coopPilotDir}`;
 
         let pilotFiles = FileUtils.getJsonFiles(coopPilotDir);

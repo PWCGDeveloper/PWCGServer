@@ -1,5 +1,4 @@
-import { FileUtils } from './fileutils';
-
+import { FileUtils } from '../../src/utils/fileutils';
 it('reads a list of subdirectories from a directory', () => {
     const subdirectories = FileUtils.getSubDirectories('../../workspacePWCGGradle/PWCGCampaign/Campaigns');
 

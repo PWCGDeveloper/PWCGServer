@@ -6,10 +6,11 @@ import { NewUserService } from '../services/newUserRequest';
 import { LoginService } from '../services/loginRequest';
 import { NewPilotService } from '../services/newPilotRequest';
 import { PilotsForPlayerService } from '../services/pilotsForPlayerService';
+import { SquadronMembersService } from '../services/squadronMembersService';
 import { RankService } from '../services/ranksForService';
 import { PWCGResponse } from '../model/response';
 import { DuplicateFileException } from '../utils/duplicateFileException'
-import { PilotData } from '../model/pilotdata';
+import { HumanPilot } from '../model/pilotdata';
 import { UserData } from '../model/userdata';
 
 const router = new Router();
@@ -77,6 +78,26 @@ router.get('/pwcgServer/pilotsForPlayer', ctx =>
     }
 });
 
+
+router.get('/pwcgServer/squadronMembersForPilot', ctx => 
+{
+    let humanPilot = JSON.parse(ctx.query.humanPilot);
+    console.log(JSON.stringify(humanPilot));
+
+    try {
+        const squadronMembersService = new SquadronMembersService();
+        const squadronMembers = squadronMembersService.getSquadronMembers(humanPilot);
+        ctx.status = 202;
+        ctx.body = squadronMembers;    
+    }
+    catch (e) {
+        console.log(`Error getting squadron members for ${humanPilot.pilotName}`, e);
+        buildResponse(ctx, 500, `Error getting pilot list for player ${humanPilot.pilotName}`);
+    }
+});
+
+
+
 router.post('/pwcgServer/newUserRequest', ctx => 
 {
     let newUserRequest = new UserData();
@@ -118,7 +139,7 @@ router.post('/pwcgServer/loginRequest', ctx =>
 
 router.post('/pwcgServer/newPilotRequest', ctx => 
 {
-    let newPilotRequest = new PilotData();
+    let newPilotRequest = new HumanPilot();
     try {
         console.log(JSON.stringify(ctx.request.body));
         newPilotRequest = ctx.request.body;

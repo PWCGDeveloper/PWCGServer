@@ -1,4 +1,4 @@
-import { CampaignSquadronListService } from './campaignSquadronList';
+import { CampaignSquadronListService } from '../../src//services/campaignSquadronList';
 
 describe('Campaign squadron list accessor', function () {
 
@@ -8,7 +8,6 @@ describe('Campaign squadron list accessor', function () {
         let campaignListService = new CampaignSquadronListService();
         let campaignName = "Eins";
         const squadrons = campaignListService.getCampaignSquadronList(campaignName);
-        console.log(JSON.stringify(squadrons))
         expect(squadrons.length > 20);
         squadrons.forEach(squadron => {
             expect(squadron !== null);
