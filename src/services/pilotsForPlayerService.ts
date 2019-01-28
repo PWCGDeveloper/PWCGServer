@@ -27,7 +27,9 @@ export class PilotsForPlayerService {
             if (fileContent) {
                 let pilotData = JSON.parse(fileContent);
                 if (pilotData.username === playerHandle) {
-                    pilotsForPlayer.push(pilotData);
+                    if (pilotData.approved) {
+                        pilotsForPlayer.push(pilotData);
+                    }
                 }
             }
         });
